@@ -4,6 +4,7 @@ import {
     getBusinessUsers,
     createUser,
     deleteUser,
+    getUserById,
     patchUserController,
 } from "../controllers/usersController.js";
 import { validateId } from "../middlewares/validateId.js";
@@ -14,7 +15,7 @@ const router = express.Router();
 router.get("/", getUsers);
 router.get("/business", getBusinessUsers);
 router.post("/", upload.single("image"), createUser);
-
+router.get("/:id", validateId, getUserById);
 router.patch("/:id", validateId, upload.single("image"), patchUserController);
 router.delete("/:id", validateId, deleteUser);
 

@@ -83,3 +83,13 @@ export const patchUserController = async (req, res, next) => {
     }
 
 };
+
+export const getUserById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const user = await usersService.getById(id);
+        res.json(user);
+    } catch (error) {
+        next(error); // HttpError з сервісу автоматично потрапить сюди
+    }
+};

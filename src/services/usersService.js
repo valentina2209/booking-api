@@ -21,3 +21,9 @@ export const remove = async (id) => {
     const user = await User.findByIdAndDelete(id);
     if (!user) throw new HttpError(404, "User not found");
 };
+
+export const getById = async (id) => {
+    const user = await User.findById(id);
+    if (!user) throw new HttpError(404, "User not found");
+    return user;
+};
