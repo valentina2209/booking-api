@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
             enum: Object.values(ROLES),
             required: true,
         },
+        image: { type: String, default: "" },
+        serviceInfo: { type: String },
     },
     { timestamps: true }
 );

@@ -3,17 +3,20 @@ import {
     getUsers,
     getBusinessUsers,
     createUser,
-    updateUser,
     deleteUser,
+    patchUserController,
 } from "../controllers/usersController.js";
 import { validateId } from "../middlewares/validateId.js";
+import { upload } from "../middlewares/upload.js";
 
 const router = express.Router();
 
 router.get("/", getUsers);
 router.get("/business", getBusinessUsers);
-router.post("/", createUser);
-router.patch("/:id", validateId, updateUser);
+router.post("/", upload.single("image"), createUser);
+
+router.patch("/:id", validateId, upload.single("image"), patchUserController);
 router.delete("/:id", validateId, deleteUser);
+
 
 export default router;
