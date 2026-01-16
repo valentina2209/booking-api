@@ -86,6 +86,9 @@ export const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params;
         const user = await usersService.getById(id);
+        if (!user) {
+            return res.status(404).json({ message: "Користувача або заклад не знайдено в базі" });
+        }
         res.json(user);
     } catch (error) {
         next(error);

@@ -14,8 +14,9 @@ const router = express.Router();
 
 router.get("/", getUsers);
 router.get("/business", getBusinessUsers);
-router.post("/", upload.single("image"), createUser);
 router.get("/:id", validateId, getUserById);
+
+router.post("/", upload.single("image"), createUser);
 router.patch("/:id", validateId, upload.single("image"), patchUserController);
 router.delete("/:id", validateId, deleteUser);
 
