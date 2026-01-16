@@ -11,9 +11,8 @@ export const createBooking = async (req, res, next) => {
 
 export const getClientBookings = async (req, res, next) => {
     try {
-        const bookings = await bookingsService.getByClient(
-            req.query.clientId
-        );
+        const { email } = req.query;
+        const bookings = await bookingsService.getByClientEmail(email);
         res.json(bookings);
     } catch (error) {
         next(error);

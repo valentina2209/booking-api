@@ -3,10 +3,10 @@ import { HttpError } from "../utils/HttpError.js";
 
 export const create = (data) => Booking.create(data);
 
-export const getByClient = (clientId) => {
-    if (!clientId)
-        throw new HttpError(400, "clientId is required");
-    return Booking.find({ clientId }).populate("businessId");
+export const getByClientEmail = (email) => {
+    if (!email)
+        throw new HttpError(400, "Email is required to find bookings");
+    return Booking.find({ userEmail: email }).populate("businessId");
 };
 
 export const update = async (id, data) => {

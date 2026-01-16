@@ -23,7 +23,7 @@ export const getBusinessUsers = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
     try {
-        let photoUrl = "";
+        let photoUrl = req.body.image || "";
 
         if (req.file) {
             photoUrl = await saveFileToCloudinary(req.file);
@@ -42,17 +42,15 @@ export const createUser = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
     try {
-        const user = await usersService.update(req.params.id, req.body);
-        res.json(user);
-    } catch (error) {
-        next(error);
-    }
-};
+        const { id } = req.params;
+        const updateData = { ...req.body };
 
-export const deleteUser = async (req, res, next) => {
-    try {
-        await usersService.remove(req.params.id);
-        res.status(204).send();
+        if (req.file) {
+            updateData.image = await saveFileToCloudinary(req.file);
+        }
+
+        const user = await usersService.update(id, updateData);
+        res.json(user);
     } catch (error) {
         next(error);
     }
@@ -90,6 +88,20 @@ export const getUserById = async (req, res, next) => {
         const user = await usersService.getById(id);
         res.json(user);
     } catch (error) {
-        next(error); // HttpError з сервісу автоматично потрапить сюди
+        next(error);
     }
+};
+
+export const getAllUsers = async (req, res, next) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) { next(error); }
+};
+
+export const deleteUser = async (req, res, next) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.status(204).send();
+    } catch (error) { next(error); }
 };
